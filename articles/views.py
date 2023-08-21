@@ -1,3 +1,4 @@
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import ArticleForm
@@ -24,7 +25,7 @@ def ArticleCreateView(request):
             article = form.save(commit=False)
             article.author = request.user
             article.save()
-            return redirect("article_list")
+            return redirect(article.get_absolute_url())
 
     else:
         form = ArticleForm()
@@ -34,6 +35,8 @@ def ArticleCreateView(request):
 @login_required
 def ArticleUpdateView(request, pk):
     article = get_object_or_404(Article, pk=pk)
+    if article.author != request.user:
+        return HttpResponseForbidden("You don't have permission to edit this article.")
     if request.method == "POST":
         form = ArticleForm(request.POST, instance=article)
         if form.is_valid():
@@ -47,6 +50,8 @@ def ArticleUpdateView(request, pk):
 @login_required
 def ArticleDeleteView(request, pk):
     article = get_object_or_404(Article, pk=pk)
+    if article.author != request.user:
+        return HttpResponseForbidden("You don't have permission to edit this article.")
     if request.method == "POST":
         article.delete()
         return redirect("article_list")
