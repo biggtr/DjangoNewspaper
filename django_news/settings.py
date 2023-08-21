@@ -37,11 +37,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # local
     "accounts.apps.AccountsConfig",
     "pages.apps.PagesConfig",
+    "articles.apps.ArticlesConfig",
+    # 3d Party
     "crispy_forms",  # new
     "crispy_bootstrap5",
 ]
+
+TIME_ZONE = "Africa/Cairo"
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -132,4 +138,13 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  # new
 CRISPY_TEMPLATE_PACK = "bootstrap5"  # new
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# email transactions api-key : md-XeYnG-7xxEWJC58lm6iJSA
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # new
+DEFAULT_FROM_EMAIL = "xaxagoy531@bagonew.com"
+EMAIL_HOST = "smtp.postmarkapp.com"
+EMAIL_HOST_USER = "cb7fe597-22c3-48c5-9b5f-1bb70547cee0"
+EMAIL_HOST_PASSWORD = "cb7fe597-22c3-48c5-9b5f-1bb70547cee0"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
